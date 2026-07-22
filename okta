@@ -1,0 +1,10 @@
+"mapping": {
+  "transform": {
+    "+DD_EMAIL": "{{- $e := \"\" -}} {{- if .actor }}{{ if .actor.alternateId }}{{ $x := printf \"%v\" .actor.alternateId }}{{ if ne (replace \"@\" \"\" $x) $x }}{{ $e = $x }}{{ end }}{{ end }}{{ end -}} {{- if eq $e \"\" }}UNKNOWN{{ else }}{{ $e }}{{ end -}}",
+    "+DD_EXTIPADDRESS": "{{- $ip := \"\" -}} {{- if .client }}{{ if .client.ipAddress }}{{ $ip = printf \"%v\" .client.ipAddress }}{{ end }}{{ end -}} {{- if eq $ip \"\" }}{{ if .request }}{{ if .request.ipChain }}{{ range .request.ipChain }}{{ if eq $ip \"\" }}{{ if .ip }}{{ $ip = printf \"%v\" .ip }}{{ end }}{{ end }}{{ end }}{{ end }}{{ end }}{{ end -}} {{- if eq $ip \"\" }}UNKNOWN{{ else }}{{ $ip }}{{ end -}}",
+    "+DD_IPADDRESS": "{{- $ip := \"\" -}} {{- if .client }}{{ if .client.ipAddress }}{{ $ip = printf \"%v\" .client.ipAddress }}{{ end }}{{ end -}} {{- if eq $ip \"\" }}{{ if .request }}{{ if .request.ipChain }}{{ range .request.ipChain }}{{ if eq $ip \"\" }}{{ if .ip }}{{ $ip = printf \"%v\" .ip }}{{ end }}{{ end }}{{ end }}{{ end }}{{ end }}{{ end -}} {{- if eq $ip \"\" }}UNKNOWN{{ else }}{{ $ip }}{{ end -}}",
+    "+DD_NAME": "{{- $n := \"\" -}} {{- if .actor }}{{ if .actor.displayName }}{{ $x := printf \"%v\" .actor.displayName }}{{ if ne $x \"unknown\" }}{{ $n = $x }}{{ end }}{{ end }}{{ end -}} {{- if eq $n \"\" }}UNKNOWN{{ else }}{{ $n }}{{ end -}}",
+    "+DD_USERNAME": "{{- $u := \"\" -}} {{- if .actor }}{{ if .actor.alternateId }}{{ $x := printf \"%v\" .actor.alternateId }}{{ if ne $x \"unknown\" }}{{ $u = $x }}{{ end }}{{ end }}{{ end -}} {{- if eq $u \"\" }}{{ if .actor }}{{ if .actor.id }}{{ $u = printf \"%v\" .actor.id }}{{ end }}{{ end }}{{ end -}} {{- if eq $u \"\" }}UNKNOWN{{ else }}{{ if ne (replace \"@\" \"\" $u) $u }}{{ index (split \"@\" $u) 0 }}{{ else }}{{ $u }}{{ end }}{{ end -}}",
+    "+DD_ACTION": "{{- if .eventType }}{{ .eventType }}{{ else }}UNKNOWN{{ end -}}"
+  }
+}
