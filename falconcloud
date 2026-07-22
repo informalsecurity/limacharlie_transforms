@@ -1,0 +1,5 @@
+EMAIL: "{{- with .RawMessage.event.UserId -}}{{ . }}{{- else -}}{{ with (index .RawMessage.event.Attributes \"actor_user\") -}}{{ . }}{{- else -}}UNKNOWN{{- end -}}{{- end -}}"
+IPADDRESS: "{{- with .RawMessage.event.UserIp -}}{{ . }}{{- else -}}{{ .RawMessage.event.SourceIp }}{{- end -}}"
+NAME: "{{- with .RawMessage.event.Attributes -}}{{- with (index . \"APIClientID\") -}}{{ . }}{{- else -}}{{ with (index . \"actor_user\") -}}{{ . }}{{- else -}}UNKNOWN{{- end -}}{{- end -}}{{- else -}}UNKNOWN{{- end -}}"
+USERNAME: "{{- with .RawMessage.event.Attributes -}}{{- with (index . \"APIClientID\") -}}{{ . }}{{- else -}}{{ with (index . \"actor_user\") -}}{{ . }}{{- else -}}UNKNOWN{{- end -}}{{- end -}}{{- else -}}UNKNOWN{{- end -}}"
+ACTION: "{{ .RawMessage.event.OperationName }}"
